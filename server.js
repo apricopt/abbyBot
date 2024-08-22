@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.post('/upwork', (req, res) => { 
     if(req.body.key) {
-        if(req.body.key !== "abbyBot2024"){
+        if(req.body.key == "abbyBot2024"){
             launchBrowser(req, res)
         }
        

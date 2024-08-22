@@ -4,6 +4,7 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const {triggerMakeWebhook} = require("./triggerMake")
 
 const fs = require("fs");
+const { getPostedDate } = require("./utils");
 
 const fsPromises = require('fs').promises;
 
@@ -11,7 +12,7 @@ const fsPromises = require('fs').promises;
 puppeteer.use(StealthPlugin());
 
 
-async function launchBrowser() {
+async function launchBrowser(req, res) {
   let args = ["--no-sandbox"];
 
   const browser = await puppeteer.launch({
@@ -29,7 +30,11 @@ async function launchBrowser() {
 
     await page.setDefaultNavigationTimeout(0);
 
-    await doIt(page, browser);
+    const {url} = req.body;
+
+  let data =   await doIt(page, browser, url);
+
+   res.status(200).json(data)
     
     await browser.close();
   } catch (err) {
@@ -38,14 +43,10 @@ async function launchBrowser() {
   }
 }
 
-launchBrowser();
 
+async function doIt(page, browser, url) {
 
-
-
-
-async function doIt(page, browser) {
-await page.goto("https://www.upwork.com/nx/search/jobs/?nbs=1&q=linkedin%20b2b%20lead%20generation")
+await page.goto(url)
   
   
 let pageInfo = await page.evaluate(() => {
@@ -66,19 +67,20 @@ let pageInfo = await page.evaluate(() => {
 
 });
 
-console.log("Page Info ", pageInfo);
-triggerMakeWebhook(pageInfo)
+
+let modifiedData = pageInfo.map(el =>{
+  return {...el , jobDate : getPostedDate(el.jobDate)}
+})
+
+console.log("Page Info ", modifiedData);
+
+// triggerMakeWebhook(modifiedData)
+
+return modifiedData
 
 
   }
 
-
-
-
-// if (!Object.keys(cookies).length) {
-//     let currentCookies = await page.cookies();
-//     fs.writeFileSync(pathOfCookie, JSON.stringify(currentCookies));
-//   } 
 
 
 
@@ -112,13 +114,6 @@ async function readJsonFile(filePath) {
 
 
 
-
-
-// function writeEmail() {
-//   document.querySelector('#login_username').parentElement.parentElement.parentElement.parentElement.setAttribute('value', 'dereddys@gmail.com');
-//   document.querySelector('#login_username').setAttribute('data-gtm-form-interact-field-id','0')
-
-// }
-
-
-// writeEmail()
+module.exports = {
+  launchBrowser
+}

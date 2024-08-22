@@ -1,3 +1,7 @@
+const moment = require("moment")
+
+
+
 const sleep = ms => {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
@@ -29,7 +33,7 @@ const sleep = ms => {
             return null;
     }
 
-    return currentDate.toLocaleString();
+    return moment(currentDate).format('MM-DD-YYYY');
 }
 
 

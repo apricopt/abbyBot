@@ -14,8 +14,8 @@ puppeteer.use(StealthPlugin());
 
 
 async function launchBrowser(req, res) {
-  let args = ["--no-sandbox"];
 
+  let args = ["--no-sandbox"];
   const browser = await puppeteer.launch({
     headless: true,
     ignoreHTTPSErrors: true,
@@ -24,10 +24,12 @@ async function launchBrowser(req, res) {
       width: 1200,
       height: 800,
     },
-    executablePath: "/usr/bin/chromium-browser"
+    // executablePath: "/usr/bin/chromium-browser"
   });
 
   try {
+
+
     const page = await browser.newPage();
 
     await page.setDefaultNavigationTimeout(0);

@@ -5,6 +5,7 @@ const {triggerMakeWebhook} = require("./triggerMake")
 
 const fs = require("fs");
 const { getPostedDate } = require("./utils");
+const { executablePath } = require("puppeteer");
 
 const fsPromises = require('fs').promises;
 
@@ -23,6 +24,7 @@ async function launchBrowser(req, res) {
       width: 1200,
       height: 800,
     },
+    executablePath: "/usr/bin/chromium-browser"
   });
 
   try {

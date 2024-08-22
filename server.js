@@ -13,7 +13,13 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upwork', (req, res) => { 
-   launchBrowser(req, res)
+    if(req.body.key) {
+        if(req.body.key !== "abbyBot2024"){
+            launchBrowser(req, res)
+        }
+       
+    }
+    res.json("Failed Validation!")
 });
 
 const PORT = process.env.PORT || 3000;

@@ -6,6 +6,9 @@ const { launchBrowser } = require('./index');
 // Create an instance of Express
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+
+
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {

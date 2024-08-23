@@ -66,15 +66,19 @@ let pageInfo = await page.evaluate(() => {
   return {title, description, url:link, jobType, jobDate, categories}
   })
 
-
   return theInfo
 
 });
 
 
 let modifiedData = pageInfo.map(el =>{
-  return {...el , jobDate : getPostedDate(el.jobDate)}
-})
+  if(!el.jobDate.includes("week") || !el.jobDate.includes("weeks") || !el.jobDate.includes("month") || !el.jobDate.includes("months")  ) {
+    return {...el , jobDate : getPostedDate(el.jobDate)}
+  }else {
+    return null
+  }
+
+}).filter(el => el !== null)
 
 console.log("Page Info ", modifiedData);
 

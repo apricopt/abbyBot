@@ -11,7 +11,7 @@ const sleep = ms => {
     const currentDate = new Date(); // Get current date and time
 
     if(postedAgo.includes("yesterday")){
-        return moment(currentDate.setDate(currentDate.getDate() - 1)).format('MM-DD-YYYY');
+        return moment(currentDate.setDate(currentDate.getDate() - 1)).format('"MM-DD-YYYY"');
     }
 
     // Split the input string into parts like "10", "hours"

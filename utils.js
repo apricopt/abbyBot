@@ -14,6 +14,10 @@ const sleep = ms => {
         return moment(currentDate.setDate(currentDate.getDate() - 1)).format('"MM-DD-YYYY"');
     }
 
+    if(postedAgo.includes("seconds")) {
+        return moment(currentDate).format('"MM-DD-YYYY"');
+    }
+
     // Split the input string into parts like "10", "hours"
     const parts = postedAgo.split(' '); 
     const timeDifference = parseInt(parts[1]); // Get the numeric value (e.g., 10, 32)

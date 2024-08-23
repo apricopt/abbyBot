@@ -39,7 +39,7 @@ const sleep = ms => {
             return null;
     }
 
-    return moment(currentDate).format('"MM/DD/YYYY"');
+    return moment(currentDate).format('"MM-DD-YYYY"');
 }
 
 

@@ -72,7 +72,7 @@ let pageInfo = await page.evaluate(() => {
 
 
 let modifiedData = pageInfo.map(el =>{
-  if(!el.jobDate.includes("week") || !el.jobDate.includes("weeks") || !el.jobDate.includes("month") || !el.jobDate.includes("months")  ) {
+  if(!el.jobDate.includes("week") && !el.jobDate.includes("weeks") && !el.jobDate.includes("month") && !el.jobDate.includes("months")  ) {
     return {...el , jobDate : getPostedDate(el.jobDate)}
   }else {
     return null

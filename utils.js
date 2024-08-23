@@ -39,11 +39,11 @@ const sleep = ms => {
             return null;
     }
 
-    return moment(currentDate).format('MM-DD-YYYY');
+    return moment(currentDate).format('"MM-DD-YYYY"');
 }
 
 
-// console.log(getPostedDate("Posted 4 days ago"))
+console.log(getPostedDate("Posted 3 days ago"))
 
 
 module.exports= {

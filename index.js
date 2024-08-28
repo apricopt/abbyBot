@@ -34,7 +34,7 @@ async function launchBrowser(req, res) {
       `--proxy-server=${configuration.proxySettings.address}:${configuration.proxySettings.port}`
     );
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     ignoreHTTPSErrors: true,
     args,
     defaultViewport: {

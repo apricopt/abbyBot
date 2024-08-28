@@ -9,28 +9,52 @@ const { executablePath } = require("puppeteer");
 
 const fsPromises = require('fs').promises;
 
+require("dotenv").config()
 
 puppeteer.use(StealthPlugin());
+
+const configuration = {
+  useProxy: true,
+  proxySettings: {
+      address: 'geo.floppydata.com',
+      port: "10080",
+      username: process.env.PROXY_USERNAME,
+      password: process.env.PROXY_PASSWORD,
+  },
+}
+
 
 
 async function launchBrowser(req, res) {
 
   let args = ["--no-sandbox"];
+
+  if (configuration.useProxy)
+    args.push(
+      `--proxy-server=${configuration.proxySettings.address}:${configuration.proxySettings.port}`
+    );
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     ignoreHTTPSErrors: true,
     args,
     defaultViewport: {
       width: 1200,
       height: 800,
     },
-    // executablePath: "/usr/bin/chromium-browser"
+    // executablePath: "/usr/bin/chromium-browser",
   });
 
   try {
 
 
     const page = await browser.newPage();
+
+    if (configuration.useProxy) {
+      await page.authenticate({
+        username: configuration.proxySettings.username,
+        password: configuration.proxySettings.password,
+      });
+    }
 
     await page.setDefaultNavigationTimeout(0);
 

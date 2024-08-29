@@ -34,7 +34,7 @@ async function launchBrowser(req, res) {
       `--proxy-server=${configuration.proxySettings.address}:${configuration.proxySettings.port}`
     );
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     ignoreHTTPSErrors: true,
     args,
     defaultViewport: {
@@ -76,13 +76,13 @@ async function doIt(page, browser, url) {
 
 await page.goto(url)
   
-  
-let pageInfo = await page.evaluate(() => {
+await page.waitForSelector("[data-ev-label='search_results_impression']")
+let pageInfo = await page.evaluate(() =>{
   let allJobs = Array.from(document.querySelectorAll("[data-ev-label='search_results_impression']"));
  let theInfo = allJobs.map(el => {
-  let title =   el.querySelector('.is-clamped a[data-test="UpLink"]').innerText.trim();
+  let title =   el.querySelector('.is-clamped a.up-n-link').innerText.trim();
   let description = el.querySelector('.is-clamped p').innerText.trim();
-  let link = `https://upwork.com${el.querySelector('.is-clamped a[data-test="UpLink"]').getAttribute("href")}`
+  let link = `https://upwork.com${el.querySelector('.is-clamped a.up-n-link').getAttribute("href")}`
   let jobType = el.querySelector('[data-test="job-type-label"]').innerText.trim().toUpperCase();
   let categories = Array.from(document.querySelector('[data-test="TokenClamp JobAttrs"]').children).map(el => el.innerText)
   let jobDate = el.querySelector('[data-test="job-pubilshed-date"]').innerText.trim()
@@ -90,8 +90,9 @@ let pageInfo = await page.evaluate(() => {
   return {title, description, url:link, jobType, jobDate, categories}
   })
 
-  return theInfo
+  // console.log("all info ", theInfo)
 
+  return theInfo
 });
 
 

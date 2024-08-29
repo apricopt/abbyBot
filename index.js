@@ -14,10 +14,10 @@ require("dotenv").config()
 puppeteer.use(StealthPlugin());
 
 const configuration = {
-  useProxy: true,
+  useProxy: false,
   proxySettings: {
-      address: 'geo.floppydata.com',
-      port: "10080",
+      address: '203.21.72.168',
+      port: "50100",
       username: process.env.PROXY_USERNAME,
       password: process.env.PROXY_PASSWORD,
   },
@@ -34,7 +34,7 @@ async function launchBrowser(req, res) {
       `--proxy-server=${configuration.proxySettings.address}:${configuration.proxySettings.port}`
     );
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     ignoreHTTPSErrors: true,
     args,
     defaultViewport: {

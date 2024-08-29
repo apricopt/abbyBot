@@ -14,7 +14,7 @@ require("dotenv").config()
 puppeteer.use(StealthPlugin());
 
 const configuration = {
-  useProxy: false,
+  useProxy: true,
   proxySettings: {
       address: '203.21.72.168',
       port: "50100",
@@ -34,7 +34,7 @@ async function launchBrowser(req, res) {
       `--proxy-server=${configuration.proxySettings.address}:${configuration.proxySettings.port}`
     );
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     ignoreHTTPSErrors: true,
     args,
     defaultViewport: {
